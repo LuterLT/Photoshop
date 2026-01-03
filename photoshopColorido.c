@@ -5,6 +5,11 @@ typedef struct pixel
 {
 	int R, G, B;
 } PIXEL;
+
+//DECLARANDO FILTROS
+	float contraste[3][3] = {{-1,-1,-1},{-1,9,-1},{-1,-1,-1}};
+
+//FUNÇÕES
 void aumentarBrilho(PIXEL **original, int linhas, int colunas, int maxValor)
 {
 	int l, c;
@@ -44,7 +49,7 @@ void diminuirBrilho(PIXEL **original, int linhas, int colunas, int maxValor)
 void espelharHorizontal(PIXEL **original, int linhas, int colunas)
 {
 	int l, c;
-	PIXEL pixelAux; //uma variável que vai guardar cada pixel temporáriamente
+	PIXEL pixelAux; // uma variável que vai guardar cada pixel temporáriamente
 	for (l = 0; l < linhas; l++)
 	{
 		for (c = 0; c < colunas / 2; c++)
@@ -53,72 +58,83 @@ void espelharHorizontal(PIXEL **original, int linhas, int colunas)
 			pixelAux.G = original[l][c].G;
 			pixelAux.B = original[l][c].B;
 
-			original[l][c].R = original[l][colunas-1-c].R;
-			original[l][c].G = original[l][colunas-1-c].G;
-			original[l][c].B = original[l][colunas-1-c].B;
+			original[l][c].R = original[l][colunas - 1 - c].R;
+			original[l][c].G = original[l][colunas - 1 - c].G;
+			original[l][c].B = original[l][colunas - 1 - c].B;
 
-			original[l][colunas-1-c].R = pixelAux.R;
-			original[l][colunas-1-c].G = pixelAux.G;
-			original[l][colunas-1-c].B = pixelAux.B;
+			original[l][colunas - 1 - c].R = pixelAux.R;
+			original[l][colunas - 1 - c].G = pixelAux.G;
+			original[l][colunas - 1 - c].B = pixelAux.B;
 		}
 	}
 }
 
-void espelharVertical(PIXEL **original, int linhas, int colunas){
+void espelharVertical(PIXEL **original, int linhas, int colunas)
+{
 	int l, c;
-	PIXEL pixelAux; //o pixel auxiliar
-	for(l=0; l<linhas/2; l++){
-		for(c=0; c<colunas; c++){
+	PIXEL pixelAux; // o pixel auxiliar
+	for (l = 0; l < linhas / 2; l++)
+	{
+		for (c = 0; c < colunas; c++)
+		{
 			pixelAux.R = original[l][c].R;
 			pixelAux.G = original[l][c].G;
-			pixelAux.B = original[l][c].B;	
-			
-			original[l][c].R = original[linhas-1-l][c].R;
-			original[l][c].G = original[linhas-1-l][c].G;
-			original[l][c].B = original[linhas-1-l][c].B;
+			pixelAux.B = original[l][c].B;
 
-			original[linhas-1-l][c].R = pixelAux.R;
-			original[linhas-1-l][c].G = pixelAux.G;
-			original[linhas-1-l][c].B = pixelAux.B;
+			original[l][c].R = original[linhas - 1 - l][c].R;
+			original[l][c].G = original[linhas - 1 - l][c].G;
+			original[l][c].B = original[linhas - 1 - l][c].B;
+
+			original[linhas - 1 - l][c].R = pixelAux.R;
+			original[linhas - 1 - l][c].G = pixelAux.G;
+			original[linhas - 1 - l][c].B = pixelAux.B;
 		}
 	}
 }
 
-PIXEL **girarDireita(PIXEL **original, int linhas, int colunas){
+PIXEL **girarDireita(PIXEL **original, int linhas, int colunas)
+{
 	int l, c;
-	int linhasNovas=colunas;
-	int colunasNovas=linhas;
+	int linhasNovas = colunas;
+	int colunasNovas = linhas;
 	PIXEL **mat;
-	mat = (PIXEL**)malloc(linhasNovas * sizeof(PIXEL*));
-	for(l=0; l<linhasNovas; l++){
-		mat[l] = (PIXEL *)malloc(colunasNovas *sizeof(PIXEL));
+	mat = (PIXEL **)malloc(linhasNovas * sizeof(PIXEL *));
+	for (l = 0; l < linhasNovas; l++)
+	{
+		mat[l] = (PIXEL *)malloc(colunasNovas * sizeof(PIXEL));
 	}
 
-	for(l=0; l<linhasNovas; l++){
-		for(c=0; c<colunasNovas;c++){
-			mat[l][c].R = original[linhas-1-c][l].R;
-			mat[l][c].G = original[linhas-1-c][l].G;
-			mat[l][c].B = original[linhas-1-c][l].B;
+	for (l = 0; l < linhasNovas; l++)
+	{
+		for (c = 0; c < colunasNovas; c++)
+		{
+			mat[l][c].R = original[linhas - 1 - c][l].R;
+			mat[l][c].G = original[linhas - 1 - c][l].G;
+			mat[l][c].B = original[linhas - 1 - c][l].B;
 		}
 	}
 	return mat;
 }
 
-PIXEL **girarEsquerda(PIXEL **original, int linhas, int colunas){
+PIXEL **girarEsquerda(PIXEL **original, int linhas, int colunas)
+{
 	int l, c;
-	int linhasNovas=colunas;
-	int colunasNovas=linhas;
+	int linhasNovas = colunas;
+	int colunasNovas = linhas;
 	PIXEL **mat;
-	mat = (PIXEL**)malloc(linhasNovas * sizeof(PIXEL*));
-	for(l=0; l<linhasNovas; l++){
-		mat[l] = (PIXEL *)malloc(colunasNovas *sizeof(PIXEL));
+	mat = (PIXEL **)malloc(linhasNovas * sizeof(PIXEL *));
+	for (l = 0; l < linhasNovas; l++)
+	{
+		mat[l] = (PIXEL *)malloc(colunasNovas * sizeof(PIXEL));
 	}
 
-	for(l=0; l<linhasNovas; l++){
-		for(c=0; c<colunasNovas;c++){
-			mat[l][c].R = original[c][colunas-1-l].R;
-			mat[l][c].G = original[c][colunas-1-l].G;
-			mat[l][c].B = original[c][colunas-1-l].B;
+	for (l = 0; l < linhasNovas; l++)
+	{
+		for (c = 0; c < colunasNovas; c++)
+		{
+			mat[l][c].R = original[c][colunas - 1 - l].R;
+			mat[l][c].G = original[c][colunas - 1 - l].G;
+			mat[l][c].B = original[c][colunas - 1 - l].B;
 		}
 	}
 	return mat;
@@ -210,10 +226,187 @@ void escreverImagem(char *nomeArquivo, PIXEL **mat, int linhas, int colunas, int
 	fclose(fp);
 }
 
+void convolucao(PIXEL **original, int linhas, int colunas, float filtro[3][3], int maxValor)
+{
+	int l, c;
+	int i, j;
+	int R, G, B;
+	int totalR = 0, totalG = 0, totalB = 0;
+
+	PIXEL **aux;
+	aux = (PIXEL **)malloc(linhas * sizeof(PIXEL *));
+	for (l = 0; l < linhas; l++)
+	{
+		aux[l] = (PIXEL *)malloc(colunas * sizeof(PIXEL));
+	}
+	// inicio do processo FAZER O AUX 
+	for (l = 0; l < linhas; l++)
+	{
+		for (c = 0; c < colunas; c++)
+		{
+			totalR = 0;
+			totalG = 0;
+			totalB = 0;
+			if ((l == 0 && c == 0))
+			{ // extremidade superior esquerda
+				for (i = 0; i < 2; i++)
+				{
+					for (j = 0; j < 2; j++)
+					{
+						R = original[l + i][c + j].R * filtro[i + 1][j + 1];
+						G = original[l + i][c + j].G * filtro[i + 1][j + 1];
+						B = original[l + i][c + j].B * filtro[i + 1][j + 1];
+
+						totalR += R;
+						totalG += G;
+						totalB += B;
+					}
+				}
+			}
+			else if ((l == 0 && c == colunas - 1))//extremidade superior direita
+			{
+				for (i = 0; i < 2; i++)
+				{
+					for (j = 0; j < 2; j++)
+					{
+						R = original[l + i][c + j-1].R * filtro[i + 1][j];
+						G = original[l + i][c + j-1].G * filtro[i + 1][j];
+						B = original[l + i][c + j-1].B * filtro[i + 1][j];
+
+						totalR += R;
+						totalG += G;
+						totalB += B;
+					}
+				}
+			}
+			else if ((l == linhas - 1 && c == 0))//extremidade inferior esquerdar
+			{
+				for (i = 0; i < 2; i++)
+				{
+					for (j = 0; j < 2; j++)
+					{
+						R = original[l + i-1][c + j].R * filtro[i][j + 1];
+						G = original[l + i-1][c + j].G * filtro[i][j + 1];
+						B = original[l + i-1][c + j].B * filtro[i][j + 1];
+
+						totalR += R;
+						totalG += G;
+						totalB += B;
+					}
+				}
+			}
+			else if ((l == linhas - 1 && c == colunas - 1))//extremidade inferior direita
+			{
+				for (i = 0; i < 2; i++)
+				{
+					for (j = 0; j < 2; j++)
+					{
+						R = original[l + i-1][c + j-1].R * filtro[i][j];
+						G = original[l + i-1][c + j-1].G * filtro[i][j];
+						B = original[l + i-1][c + j-1].B * filtro[i][j];
+
+						totalR += R;
+						totalG += G;
+						totalB += B;
+					}
+				}
+			}
+			else if (l == 0 || c == 0 || l == linhas - 1 || c == colunas - 1)
+			{
+				if(l==0){ //EM CIMA
+					for (i = 0; i < 2; i++)
+					{
+						for (j = 0; j < 3; j++)
+						{
+							R = original[l + i][c + j-1].R * filtro[i+1][j];
+							G = original[l + i][c + j-1].G * filtro[i+1][j];
+							B = original[l + i][c + j-1].B * filtro[i+1][j];
+
+							totalR += R;
+							totalG += G;
+							totalB += B;
+						}
+					}
+				}else if(c==0){ //LADO ESQUERDO
+					for (i = 0; i < 3; i++)
+					{
+						for (j = 0; j < 2; j++)
+						{
+							R = original[l + i-1][c + j].R * filtro[i][j+1];
+							G = original[l + i-1][c + j].G * filtro[i][j+1];
+							B = original[l + i-1][c + j].B * filtro[i][j+1];
+
+							totalR += R;
+							totalG += G;
+							totalB += B;
+						}
+					}
+				}else if(l==linhas-1){ //EM BAIXO
+					for (i = 0; i < 2; i++)
+					{
+						for (j = 0; j < 3; j++)
+						{
+							R = original[l + i-1][c + j-1].R * filtro[i][j];
+							G = original[l + i-1][c + j-1].G * filtro[i][j];
+							B = original[l + i-1][c + j-1].B * filtro[i][j];
+
+							totalR += R;
+							totalG += G;
+							totalB += B;
+						}
+					}
+				}else if(c==colunas-1){ //LADO DIREITO
+					for (i = 0; i < 3; i++)
+					{
+						for (j = 0; j < 2; j++)
+						{
+							R = original[l + i-1][c + j-1].R * filtro[i][j];
+							G = original[l + i-1][c + j-1].G * filtro[i][j];
+							B = original[l + i-1][c + j-1].B * filtro[i][j];
+
+							totalR += R;
+							totalG += G;
+							totalB += B;
+						}
+					}
+				}
+			}
+			else
+			{
+				for (i = 0; i < 3; i++)
+				{
+					for (j = 0; j < 3; j++)
+					{
+						R = original[l + i - 1][c + j - 1].R * filtro[i][j];
+						G = original[l + i - 1][c + j - 1].G * filtro[i][j];
+						B = original[l + i - 1][c + j - 1].B * filtro[i][j];
+
+						totalR += R;
+						totalG += G;
+						totalB += B;
+					}
+				}
+			}
+			if(totalR > maxValor) totalR = maxValor;
+			if(totalG > maxValor) totalG = maxValor;
+			if(totalB > maxValor) totalB = maxValor;
+			aux[l][c].R = totalR;
+			aux[l][c].G = totalG;
+			aux[l][c].B = totalB;
+		}
+	}
+	for(l=0; l<linhas; l++){
+		for(c=0; c<colunas; c++){
+			original[l][c].R = aux[l][c].R;
+			original[l][c].G = aux[l][c].G;
+			original[l][c].B = aux[l][c].B;
+		}
+	}
+}
 
 
 
-
+//ESTRUTURA PRINCIPAL
 int main(int argc, char *argv[])
 {
 	int opcao = -1;
@@ -223,7 +416,7 @@ int main(int argc, char *argv[])
 	char nomeArquivo[100] = "";
 	char nomeArquivoLeitura[100] = "";
 	char nomeArquivoEscrita[100] = "";
-	
+
 	while (opcao != 0)
 	{
 		printf("\n\n=== Mini-photoshop ===\n\n");
@@ -242,10 +435,10 @@ int main(int argc, char *argv[])
 		printf("13) Fazer moldura\n");
 		printf(" 0) Sair\n");
 		printf("\nEntre a opcao desejada: ");
-		
+
 		scanf("%d", &opcao);
 		getchar(); // Limpa o '\n' do buffer
-		
+
 		switch (opcao)
 		{
 		case 1:
@@ -284,7 +477,7 @@ int main(int argc, char *argv[])
 			daltonico(mat, linhas, colunas, maxValor);
 			break;
 		case 10:
-			// mat = aumentarContraste(mat, linhas, colunas, maxValor);
+			convolucao(mat, linhas, colunas, contraste, maxValor);
 			break;
 		case 11:
 			// mat = diminuirContraste(mat, linhas, colunas, maxValor);
