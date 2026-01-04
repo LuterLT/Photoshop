@@ -8,8 +8,25 @@ typedef struct pixel
 
 //DECLARANDO FILTROS
 	float contraste[3][3] = {{-1,-1,-1},{-1,9,-1},{-1,-1,-1}};
+	float desfocar[3][3] = {{0.11, 0.11, 0.11}, {0.11,0.11,0.11},{0.11,0.11,0.11}};
+	float relevo[3][3] = {{-2,-1,0},{-1,1,1},{0,1,2}};
 
 //FUNÇÕES
+
+void moldura(PIXEL **original, int linhas, int colunas, int maxValor){
+	for(int l=0; l<linhas; l++){
+		for(int c=0; c<colunas; c++){
+			if(l<15||c<15||l>linhas-15-1||c>colunas-15-1){
+			original[l][c].R = (int)(original[l][c].R * 0.2);
+
+			original[l][c].G = (int)(original[l][c].G * 0.2);
+
+			original[l][c].B = (int)(original[l][c].B * 0.2);
+			}
+		}
+	}
+}
+
 void aumentarBrilho(PIXEL **original, int linhas, int colunas, int maxValor)
 {
 	int l, c;
@@ -430,8 +447,8 @@ int main(int argc, char *argv[])
 		printf(" 8) Girar para Esquerda\n");
 		printf(" 9) Filtro daltônico\n");
 		printf(" 10) Aumentar contraste\n");
-		printf(" 11) Diminuir contraste\n");
-		printf("12) Desfocar\n");
+		printf(" 11) Desfocar\n");
+		printf("12) Relevo\n");
 		printf("13) Fazer moldura\n");
 		printf(" 0) Sair\n");
 		printf("\nEntre a opcao desejada: ");
@@ -480,13 +497,13 @@ int main(int argc, char *argv[])
 			convolucao(mat, linhas, colunas, contraste, maxValor);
 			break;
 		case 11:
-			// mat = diminuirContraste(mat, linhas, colunas, maxValor);
+			convolucao(mat, linhas, colunas,desfocar, maxValor);
 			break;
 		case 12:
-			// mat = borrar(mat, linhas, colunas, tamanhoBorrao);
+			convolucao(mat, linhas, colunas, relevo, maxValor);
 			break;
 		case 13:
-			// mat = moldura(mat, linhas, colunas, maxValor);
+			moldura(mat, linhas, colunas, maxValor);
 			break;
 		case 0:
 			printf("\nSaindo...\n");
